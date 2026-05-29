@@ -1,0 +1,19 @@
+<nav class="navbar bg-primary navbar-expand mb-3" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="nabar-brand" [routerLink]="['/home']">APP Corriere</a>
+    <div class="collapse navbar-collapse">
+    </div>
+    <ul class="navbar-nav me-3">
+      <app-nav-user
+        *ngIf="(currentUser$ | async) as currentUser; else loginButton"
+        (logout)="logout()"
+        [user]="currentUser"
+        ></app-nav-user>
+      <ng-template #loginButton>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</nav>

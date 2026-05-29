@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://esame-trevisan-marco.somee.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

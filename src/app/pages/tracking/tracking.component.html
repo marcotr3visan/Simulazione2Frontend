@@ -1,0 +1,93 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h1 class="h3 mb-3 text-center">Tracking pubblico consegna</h1>
+          <p class="text-muted text-center mb-4">
+            Inserisci la chiave di tracking e la data di ritiro per verificare lo stato della spedizione.
+          </p>
+
+          <form (ngSubmit)="onSubmit()" #trackingForm="ngForm">
+            <div class="mb-3">
+              <label for="chiaveConsegna" class="form-label">Chiave consegna</label>
+              <input
+                type="text"
+                class="form-control"
+                id="chiaveConsegna"
+                name="chiaveConsegna"
+                [(ngModel)]="formData.chiaveConsegna"
+                required
+                placeholder="Es. CE-AB-7K9X2Q"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="dataRitiro" class="form-label">Data di ritiro</label>
+              <input
+                type="date"
+                class="form-control"
+                id="dataRitiro"
+                name="dataRitiro"
+                [(ngModel)]="formData.dataRitiro"
+                required
+              />
+            </div>
+
+            <div class="d-flex gap-2">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="loading">
+                <span *ngIf="!loading">Cerca consegna</span>
+                <span *ngIf="loading">Ricerca in corso...</span>
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="resetForm()">
+                Reset
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="errore" class="alert alert-danger mt-4 mb-0" role="alert">
+            {{ errore }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="risultato" class="card shadow-sm border-0 mt-4">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-3">Risultato tracking</h2>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="text-muted small">Stato</div>
+                <div class="fw-bold">{{ risultato.stato }}</div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="text-muted small">Data ritiro</div>
+                <div class="fw-bold">{{ risultato.dataRitiro | date:'dd/MM/yyyy' }}</div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="text-muted small">Data consegna</div>
+                <div class="fw-bold">
+                  {{ risultato.dataConsegna ? (risultato.dataConsegna | date:'dd/MM/yyyy') : 'Non disponibile' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

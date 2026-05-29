@@ -1,0 +1,9 @@
+<li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+  <a class="nav-link" ngbDropdownToggle>
+    {{user.Nome}}
+    {{user.Email}}
+  </a>
+  <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+    <button ngbDropdownItem (click)="onLogout()">Logout</button>
+  </div>
+</li>

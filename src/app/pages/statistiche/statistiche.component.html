@@ -1,0 +1,175 @@
+<div class="container-fluid py-4 px-3 px-lg-4 statistiche-page">
+  <div class="row g-4">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm hero-card">
+        <div class="card-body p-4 p-lg-5">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+              <span class="badge text-bg-primary mb-3">Report consegne</span>
+              <h1 class="display-6 mb-2">Statistiche</h1>
+              <p class="text-muted mb-0">
+                Analizza numero consegne e tempo medio in base a periodo e stato.
+              </p>
+            </div>
+
+            <div>
+              <button class="btn btn-outline-secondary" (click)="goBack()">
+                Torna all'area operatore
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h2 class="h5 mb-1">Filtri</h2>
+          <p class="text-muted small mb-0">
+            Seleziona intervallo date e stato per aggiornare il riepilogo.
+          </p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+          <form (ngSubmit)="filtra()" class="row g-3">
+            <div class="col-12 col-md-4">
+              <label class="form-label">Dal</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="filtri.Dal"
+                name="Dal">
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Al</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="filtri.Al"
+                name="Al">
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Stato</label>
+              <select
+                class="form-select"
+                [(ngModel)]="filtri.Stato"
+                name="Stato">
+                <option value="">Tutti gli stati</option>
+                <option *ngFor="let stato of statiDisponibili" [value]="stato">
+                  {{ stato }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12 d-flex flex-column flex-sm-row gap-2">
+              <button type="submit" class="btn btn-primary">
+                Applica filtri
+              </button>
+
+              <button type="button" class="btn btn-outline-secondary" (click)="resetFiltri()">
+                Reset
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="errore" class="alert alert-danger mt-4 mb-0">
+            {{ errore }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card border-0 shadow-sm stat-card h-100">
+        <div class="card-body p-4">
+          <div class="text-muted small mb-2">Totale consegne</div>
+          <div class="display-6 fw-bold">{{ totaleConsegne }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card border-0 shadow-sm stat-card h-100">
+        <div class="card-body p-4">
+          <div class="text-muted small mb-2">Tempo medio consegna</div>
+          <div class="display-6 fw-bold">
+            {{ mediaOre !== null ? (mediaOre | number:'1.0-2') + ' h' : 'N/D' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <div>
+              <h2 class="h5 mb-1">Dettaglio statistiche</h2>
+              <p class="text-muted small mb-0">
+                Risultati aggregati restituiti dall’API backend.
+              </p>
+            </div>
+            <span class="badge rounded-pill text-bg-light border">
+              Record: {{ statistiche.length }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pt-0">
+          <div *ngIf="loading" class="text-muted px-4 py-4">
+            Caricamento statistiche...
+          </div>
+
+          <div *ngIf="!loading" class="table-responsive table-panel">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th class="ps-4">Dal</th>
+                  <th>Al</th>
+                  <th>Stato</th>
+                  <th>Numero consegne</th>
+                  <th class="pe-4">Tempo medio (ore)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of statistiche">
+                  <td class="ps-4">
+                    {{ item.dal ? (item.dal | date:'dd/MM/yyyy') : '-' }}
+                  </td>
+                  <td>
+                    {{ item.al ? (item.al | date:'dd/MM/yyyy') : '-' }}
+                  </td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'text-bg-warning': item.stato === 'Da ritirare',
+                        'text-bg-info': item.stato === 'In consegna',
+                        'text-bg-success': item.stato === 'Consegnata',
+                        'text-bg-secondary': item.stato !== 'Da ritirare' && item.stato !== 'In consegna' && item.stato !== 'Consegnata'
+                      }">
+                      {{ item.stato || 'Tutti' }}
+                    </span>
+                  </td>
+                  <td>{{ item.numeroConsegne }}</td>
+                  <td class="pe-4">
+                    {{ item.tempoMedioConsegnaOre !== null ? (item.tempoMedioConsegnaOre | number:'1.0-2') : 'N/D' }}
+                  </td>
+                </tr>
+
+                <tr *ngIf="statistiche.length === 0">
+                  <td colspan="5" class="text-center text-muted py-4">
+                    Nessuna statistica disponibile per i filtri selezionati.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

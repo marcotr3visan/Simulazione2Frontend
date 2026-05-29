@@ -1,0 +1,68 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col col-lg-4"></div>
+    <div class="col col-lg-4 col-md-12 border rounded p-4">
+      <form (ngSubmit)="register()" [formGroup]="registrationForm">
+      
+        <div class="form-outline mb-4">
+          <label class="form-label">FirstName</label>
+          <input type="text" class="form-control" formControlName="Nome" required />
+          <div *ngIf="registrationForm.get('Nome')?.touched && registrationForm.get('Nome')?.hasError('required')" class="text-danger">
+            Il nome è obbligatorio.
+          </div>
+        </div>
+
+        <div class="form-outline mb-4">
+          <label class="form-label">LastName</label>
+          <input type="text" class="form-control" formControlName="Cognome" required />
+          <div *ngIf="registrationForm.get('Cognome')?.touched && registrationForm.get('Cognome')?.hasError('required')" class="text-danger">
+            Il cognome è obbligatorio.
+          </div>
+        </div>
+
+        <div class="form-outline mb-4">
+          <label class="form-label">Username</label>
+          <input type="email" class="form-control" formControlName="Email" required />
+          <div *ngIf="registrationForm.get('Email')?.touched" class="text-danger">
+            <div *ngIf="registrationForm.get('Email')?.hasError('required')">L'email è obbligatoria.</div>
+            <div *ngIf="registrationForm.get('Email')?.hasError('email')">Inserisci un indirizzo email valido.</div>
+          </div>
+        </div>
+
+        <div class="form-outline mb-4">
+          <label class="form-label">Role</label>
+          <select class="form-control" formControlName="Role" required>
+            <option value="" disabled selected>Seleziona Role</option>
+            <option value="Dipendente">Dipendente</option>
+            <option value="Responsabile">Responsabile</option>
+          </select>
+          <div *ngIf="registrationForm.get('Role')?.touched && registrationForm.get('Role')?.hasError('required')" class="text-danger">
+            Il ruolo è obbligatorio.
+          </div>
+        </div>
+
+        <div class="form-outline mb-4">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" formControlName="Password" required />
+          <div *ngIf="registrationForm.get('Password')?.touched" class="text-danger">
+            <div *ngIf="registrationForm.get('Password')?.hasError('required')">La password è obbligatoria.</div>
+            <div *ngIf="registrationForm.get('Password')?.hasError('pattern')">
+              La password deve avere almeno 8 caratteri, includere una lettera maiuscola, un numero e un simbolo.
+            </div>
+          </div>
+        </div>
+        <div class="text-danger" *ngIf="registrationError">
+          {{ registrationError }}
+        </div>
+
+        
+        
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-block mb-4" [disabled]="registrationForm.invalid">Register</button>
+        </div>
+      </form>
+      <button class="btn btn-outline-primary" (click)="goToLogin()">Vai al login</button>
+    </div>
+  </div>
+</div>
+  

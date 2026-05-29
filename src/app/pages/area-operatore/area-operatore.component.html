@@ -1,0 +1,562 @@
+<div class="container-fluid py-4 px-3 px-lg-4 area-operatore">
+  <div class="row g-4">
+
+    <div class="col-12">
+      <div class="card border-0 shadow-sm hero-card">
+        <div class="card-body p-4 p-lg-5">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div>
+              <span class="badge text-bg-primary mb-3">Area riservata</span>
+              <h1 class="display-6 mb-2">Area operatore</h1>
+              <p class="text-muted mb-0">
+                Gestisci clienti e consegne direttamente da questa area riservata.
+              </p>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row gap-2">
+              <button class="btn btn-outline-primary" (click)="goToStats()">
+                Vai alle statistiche
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="messaggio">
+      <div class="alert alert-success shadow-sm mb-0">
+        {{ messaggio }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="section-header mb-1">
+        <h2 class="h3 mb-1">Gestione clienti</h2>
+        <p class="text-muted mb-0">
+          Inserisci, modifica ed elimina i clienti registrati.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12 col-xxl-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h3 class="h5 mb-1">Nuovo cliente</h3>
+          <p class="text-muted small mb-0">
+            Compila i dati principali del cliente.
+          </p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+          <form (ngSubmit)="inserisciCliente()" class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Nominativo</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuovoCliente.nominativo"
+                name="nominativo"
+                required>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Via</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuovoCliente.via"
+                name="via"
+                required>
+            </div>
+
+            <div class="col-md-8">
+              <label class="form-label">Comune</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuovoCliente.comune"
+                name="comune"
+                required>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Provincia</label>
+              <input
+                type="text"
+                class="form-control text-uppercase"
+                maxlength="2"
+                [(ngModel)]="nuovoCliente.provincia"
+                name="provincia"
+                required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Telefono</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuovoCliente.telefono"
+                name="telefono">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="nuovoCliente.email"
+                name="email">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Note</label>
+              <textarea
+                class="form-control"
+                rows="4"
+                [(ngModel)]="nuovoCliente.note"
+                name="note"></textarea>
+            </div>
+
+            <div class="col-12 d-grid d-sm-flex">
+              <button type="submit" class="btn btn-primary px-4">
+                Inserisci cliente
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="erroreClienti" class="alert alert-danger mt-4 mb-0">
+            {{ erroreClienti }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xxl-8" *ngIf="clienteInModifica">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h3 class="h5 mb-1">Modifica cliente</h3>
+          <p class="text-muted small mb-0">
+            Aggiorna i dati del cliente selezionato.
+          </p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+          <form (ngSubmit)="salvaModificaCliente()" class="row g-3">
+            <div class="col-12 col-md-2">
+              <label class="form-label">ID</label>
+              <input
+                type="text"
+                class="form-control"
+                [ngModel]="clienteInModifica.clienteID"
+                name="clienteIDVisual"
+                disabled>
+            </div>
+
+            <div class="col-12 col-md-10">
+              <label class="form-label">Nominativo</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="clienteInModifica.nominativo"
+                name="nominativoModifica"
+                required>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Via</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="clienteInModifica.via"
+                name="viaModifica"
+                required>
+            </div>
+
+            <div class="col-12 col-md-8">
+              <label class="form-label">Comune</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="clienteInModifica.comune"
+                name="comuneModifica"
+                required>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Provincia</label>
+              <input
+                type="text"
+                class="form-control text-uppercase"
+                maxlength="2"
+                [(ngModel)]="clienteInModifica.provincia"
+                name="provinciaModifica"
+                required>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label">Telefono</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="clienteInModifica.telefono"
+                name="telefonoModifica">
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="clienteInModifica.email"
+                name="emailModifica">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Note</label>
+              <textarea
+                class="form-control"
+                rows="4"
+                [(ngModel)]="clienteInModifica.note"
+                name="noteModifica"></textarea>
+            </div>
+
+            <div class="col-12 d-flex flex-column flex-sm-row gap-2">
+              <button type="submit" class="btn btn-primary">
+                Salva modifiche
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="annullaModificaCliente()">
+                Annulla
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" [class.col-xxl-8]="!clienteInModifica" [class.col-xxl-12]="clienteInModifica">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <div>
+              <h3 class="h5 mb-1">Elenco clienti</h3>
+              <p class="text-muted small mb-0">
+                Panoramica dei clienti registrati.
+              </p>
+            </div>
+
+            <span class="badge rounded-pill text-bg-light border">
+              Totale: {{ clienti.length }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pt-0">
+          <div *ngIf="loadingClienti" class="text-muted px-4 py-4">
+            Caricamento clienti...
+          </div>
+
+          <div *ngIf="!loadingClienti" class="table-responsive table-panel">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th class="ps-4">ID</th>
+                  <th>Nominativo</th>
+                  <th>Via</th>
+                  <th>Comune</th>
+                  <th>Provincia</th>
+                  <th>Telefono</th>
+                  <th>Email</th>
+                  <th class="text-end pe-4">Azioni</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cliente of clienti">
+                  <td class="ps-4 fw-semibold">{{ cliente.clienteID }}</td>
+                  <td>{{ cliente.nominativo || '-' }}</td>
+                  <td>{{ cliente.via || '-' }}</td>
+                  <td>{{ cliente.comune || '-' }}</td>
+                  <td>{{ cliente.provincia || '-' }}</td>
+                  <td>{{ cliente.telefono || '-' }}</td>
+                  <td>{{ cliente.email || '-' }}</td>
+                  <td class="text-end pe-4">
+                    <button
+                      class="btn btn-sm btn-outline-primary me-2"
+                      (click)="apriModificaCliente(cliente)">
+                      Modifica
+                    </button>
+
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="eliminaCliente(cliente.clienteID)">
+                      Elimina
+                    </button>
+                  </td>
+                </tr>
+
+                <tr *ngIf="clienti.length === 0">
+                  <td colspan="8" class="text-center text-muted py-4">
+                    Nessun cliente presente
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-2">
+      <div class="section-header mb-1">
+        <h2 class="h3 mb-1">Gestione consegne</h2>
+        <p class="text-muted mb-0">
+          Inserisci, aggiorna ed elimina le consegne registrate.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12 col-xxl-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h3 class="h5 mb-1">Nuova consegna</h3>
+          <p class="text-muted small mb-0">
+            Registra una nuova consegna associandola a un cliente.
+          </p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+          <form (ngSubmit)="inserisciConsegna()" class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Cliente</label>
+              <select
+                class="form-select"
+                [(ngModel)]="nuovaConsegna.clienteID"
+                name="clienteID"
+                required>
+                <option [ngValue]="0">Seleziona cliente</option>
+                <option *ngFor="let cliente of clienti" [ngValue]="cliente.clienteID">
+                  {{ cliente.nominativo }} - {{ cliente.comune }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Data ritiro</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="nuovaConsegna.dataRitiro"
+                name="dataRitiro"
+                required>
+            </div>
+
+            <div class="col-12 d-grid d-sm-flex">
+              <button type="submit" class="btn btn-success px-4">
+                Inserisci consegna
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="erroreConsegne" class="alert alert-danger mt-4 mb-0">
+            {{ erroreConsegne }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xxl-8" *ngIf="consegnaInModifica">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h3 class="h5 mb-1">Modifica consegna</h3>
+          <p class="text-muted small mb-0">
+            Aggiorna i dati della consegna selezionata.
+          </p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+          <form (ngSubmit)="salvaModificaConsegna()" class="row g-3">
+            <div class="col-12 col-md-2">
+              <label class="form-label">ID</label>
+              <input
+                type="text"
+                class="form-control"
+                [ngModel]="consegnaInModifica.consegnaID"
+                name="consegnaIDVisual"
+                disabled>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Cliente</label>
+              <select
+                class="form-select"
+                [(ngModel)]="consegnaInModifica.clienteID"
+                name="clienteIDModifica"
+                required>
+                <option *ngFor="let cliente of clienti" [ngValue]="cliente.clienteID">
+                  {{ cliente.nominativo }} - {{ cliente.comune }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label">Data ritiro</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="consegnaInModifica.dataRitiro"
+                name="dataRitiroModifica"
+                required>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label class="form-label">Stato</label>
+              <select
+                class="form-select"
+                [(ngModel)]="consegnaInModifica.stato"
+                name="statoModifica"
+                required>
+                <option *ngFor="let stato of statiConsegna" [value]="stato">
+                  {{ stato }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Data consegna</label>
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="consegnaInModifica.dataConsegna"
+                name="dataConsegnaModifica">
+            </div>
+
+            <div class="col-12 col-md-8">
+              <label class="form-label">Chiave consegna</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="consegnaInModifica.chiaveConsegna"
+                name="chiaveConsegnaModifica">
+            </div>
+
+            <div class="col-12 d-flex flex-column flex-sm-row gap-2">
+              <button type="submit" class="btn btn-primary">
+                Salva modifiche
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="annullaModificaConsegna()">
+                Annulla
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" [class.col-xxl-8]="!consegnaInModifica" [class.col-xxl-12]="consegnaInModifica">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+            <div>
+              <h3 class="h5 mb-1">Elenco consegne</h3>
+              <p class="text-muted small mb-0">
+                Consulta le consegne e aggiorna rapidamente lo stato.
+              </p>
+            </div>
+
+            <span class="badge rounded-pill text-bg-light border">
+              Totale: {{ consegne.length }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pt-0">
+          <div *ngIf="loadingConsegne" class="text-muted px-4 py-4">
+            Caricamento consegne...
+          </div>
+
+          <div *ngIf="!loadingConsegne" class="table-responsive table-panel">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light sticky-top">
+                <tr>
+                  <th class="ps-4">ID</th>
+                  <th>Cliente ID</th>
+                  <th>Data ritiro</th>
+                  <th>Data consegna</th>
+                  <th>Stato</th>
+                  <th>Chiave</th>
+                  <th class="text-end pe-4">Azioni</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let consegna of consegne">
+                  <td class="ps-4 fw-semibold">{{ consegna.consegnaID }}</td>
+                  <td>{{ consegna.clienteID }}</td>
+                  <td>
+                    {{ getDataDisplay(consegna.dataRitiro) ? (getDataDisplay(consegna.dataRitiro) | date:'dd/MM/yyyy') : '-' }}
+                  </td>
+                  <td>
+                    {{ getDataDisplay(consegna.dataConsegna) ? (getDataDisplay(consegna.dataConsegna) | date:'dd/MM/yyyy') : '-' }}
+                  </td>
+                  <td>
+                    <div class="d-flex flex-column gap-2">
+                      <span
+                        class="badge align-self-start"
+                        [ngClass]="{
+                          'text-bg-warning': consegna.stato === 'Da ritirare',
+                          'text-bg-info': consegna.stato === 'In consegna',
+                          'text-bg-success': consegna.stato === 'Consegnata',
+                          'text-bg-secondary': consegna.stato === 'In deposito' || consegna.stato === 'In giacenza'
+                        }">
+                        {{ consegna.stato || '-' }}
+                      </span>
+
+                      <select
+                        class="form-select form-select-sm"
+                        [ngModel]="consegna.stato"
+                        (ngModelChange)="cambiaStatoRapido(consegna, $event)"
+                        [name]="'statoRapido' + consegna.consegnaID">
+                        <option *ngFor="let stato of statiConsegna" [value]="stato">
+                          {{ stato }}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="font-monospace small">
+                    {{ consegna.chiaveConsegna || '-' }}
+                  </td>
+                  <td class="text-end pe-4">
+                    <button
+                      class="btn btn-sm btn-outline-primary me-2"
+                      (click)="apriModificaConsegna(consegna)">
+                      Modifica
+                    </button>
+
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="eliminaConsegna(consegna.consegnaID)">
+                      Elimina
+                    </button>
+                  </td>
+                </tr>
+
+                <tr *ngIf="consegne.length === 0">
+                  <td colspan="7" class="text-center text-muted py-4">
+                    Nessuna consegna presente
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

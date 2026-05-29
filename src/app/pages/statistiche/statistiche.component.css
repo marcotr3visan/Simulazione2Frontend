@@ -1,0 +1,44 @@
+.statistiche-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card-header {
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}
+
+.stat-card {
+  background: #ffffff;
+}
+
+.table-panel {
+  max-height: 480px;
+  overflow: auto;
+}
+
+.table thead.sticky-top th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bs-light);
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.form-control,
+.form-select {
+  min-height: 44px;
+}
