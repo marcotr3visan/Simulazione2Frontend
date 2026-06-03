@@ -7,25 +7,24 @@ import { jwtDecode } from 'jwt-decode';
 export class JwtService {
   protected tokenStorageKey = 'authToken';
 
-  getPayload<T>() {
-    const authTokens = this.getToken();
-    if (!authTokens) {
+  getPayload<T>(): T | null {
+    const token = this.getToken();
+    if (!token) {
       return null;
     }
-    return jwtDecode<T>(authTokens.token);
+
+    return jwtDecode<T>(token);
   }
 
-  getToken(): {token: string} | null {
-    const token =  localStorage.getItem(this.tokenStorageKey);
+  getToken(): string | null {
+    const token = localStorage.getItem(this.tokenStorageKey);
 
-    if (!(token)){
+    if (!token) {
       this.removeToken();
       return null;
     }
 
-    return {
-      token,
-    };
+    return token;
   }
 
   setToken(token: string) {
