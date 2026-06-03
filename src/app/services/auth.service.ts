@@ -39,13 +39,13 @@ export class AuthService {
                       );
 
   login(Email: string, Password: string) {
-    return this.http.post<any>(`${this.apiUrl}/login`, {Email, Password})
-      .pipe(
-        tap(res => this.jwtSrv.setToken(res.token)),
-        tap(res => this._currentUser$.next(res.user)),
-        map(res => res.user)
-      );
-  }
+  return this.http.post<any>(`${this.apiUrl}/login`, { Email, Password }).pipe(
+    tap(res => console.log('LOGIN RESPONSE', res)),
+    tap(res => this.jwtSrv.setToken(res.token)),
+    tap(res => this._currentUser$.next(res.user)),
+    map(res => res.user)
+  );
+}
 
   register(Nome: string, Cognome: string, Email: string, Password: string) {
   return this.http.post<any>(`${this.apiUrl}/register`, { Nome, Cognome, Email, Password });
