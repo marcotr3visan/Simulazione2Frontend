@@ -30,18 +30,6 @@
         </div>
 
         <div class="form-outline mb-4">
-          <label class="form-label">Role</label>
-          <select class="form-control" formControlName="Role" required>
-            <option value="" disabled selected>Seleziona Role</option>
-            <option value="Dipendente">Dipendente</option>
-            <option value="Responsabile">Responsabile</option>
-          </select>
-          <div *ngIf="registrationForm.get('Role')?.touched && registrationForm.get('Role')?.hasError('required')" class="text-danger">
-            Il ruolo è obbligatorio.
-          </div>
-        </div>
-
-        <div class="form-outline mb-4">
           <label class="form-label">Password</label>
           <input type="password" class="form-control" formControlName="Password" required />
           <div *ngIf="registrationForm.get('Password')?.touched" class="text-danger">

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, Subject, takeUntil, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -8,61 +8,73 @@ import { Router } from '@angular/router';
   selector: 'app-registration',
   standalone: false,
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
-
+export class RegistrationComponent implements OnInit, OnDestroy {
   registrationForm!: FormGroup;
-
   registrationError = '';
-  
-    private destroyed$ = new Subject<void>();
-  
-    constructor(private authSrv: AuthService,
-                private router: Router) { }
-      
-    protected fb = inject(FormBuilder);
-                
-    ngOnInit(): void {
-    const passwordPattern = /(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}/;
+  isSubmitting = false;
+
+  private destroyed$ = new Subject<void>();
+  protected fb = inject(FormBuilder);
+
+  constructor(
+    private authSrv: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
     this.registrationForm = this.fb.group({
       Nome: ['', Validators.required],
       Cognome: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],
-      Role: ['', Validators.required],
-      Password: ['', [Validators.required, Validators.pattern(passwordPattern)]],
+      Password: ['', [Validators.required, Validators.pattern(passwordPattern)]]
     });
-  
+
     this.registrationForm.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
         this.registrationError = '';
       });
   }
-  
-    ngOnDestroy(): void {
-      this.destroyed$.next();
-      this.destroyed$.complete();
-    }
-  
-    register() {
-      if (this.registrationForm.valid) {
-        const { Nome, Cognome, Email, Role, Password} = this.registrationForm.value;
-        this.authSrv.register(Nome!, Cognome!, Email!, Role!, Password!,)
-          .pipe(
-            catchError(err => {
-              this.registrationError = err.error.message;
-              return throwError(() => err);   
-            })
-          )
-          .subscribe(() => {
-            this.router.navigate(['/login']);
-          });
-      }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  register(): void {
+    if (this.registrationForm.invalid) {
+      this.registrationForm.markAllAsTouched();
+      return;
     }
 
-    goToLogin() {
-      this.router.navigate(['/login']);
-    }
+    this.registrationError = '';
+    this.isSubmitting = true;
+
+    const { Nome, Cognome, Email, Password } = this.registrationForm.getRawValue();
+
+    this.authSrv.register(Nome, Cognome, Email, Password)
+      .pipe(
+        takeUntil(this.destroyed$),
+        catchError(err => {
+          this.isSubmitting = false;
+          this.registrationError = err?.error?.message || 'Errore durante la registrazione.';
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.isSubmitting = false;
+          this.router.navigate(['/login']);
+        },
+        error: () => {}
+      });
   }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+}
