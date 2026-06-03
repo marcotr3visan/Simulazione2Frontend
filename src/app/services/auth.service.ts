@@ -29,7 +29,7 @@ export class AuthService {
     }
   }
 
-    private apiUrl = '/api/user';
+    private apiUrl = 'http://esame-trevisan-marco.somee.com/api/user/';
 
 
   isAuthenticated$ = this.currentUser$
