@@ -57,21 +57,25 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const { Nome, Cognome, Email, Password } = this.registrationForm.getRawValue();
 
     this.authSrv.register(Nome, Cognome, Email, Password)
-      .pipe(
-        takeUntil(this.destroyed$),
-        catchError(err => {
-          this.isSubmitting = false;
-          this.registrationError = err?.error?.message || 'Errore durante la registrazione.';
-          return throwError(() => err);
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.isSubmitting = false;
-          this.router.navigate(['/login']);
-        },
-        error: () => {}
-      });
+  .pipe(
+    takeUntil(this.destroyed$),
+    catchError(err => {
+      console.error('REGISTER ERROR', err);
+      this.isSubmitting = false;
+      this.registrationError = err?.error?.message || 'Errore durante la registrazione.';
+      return throwError(() => err);
+    })
+  )
+  .subscribe({
+    next: (res) => {
+      console.log('REGISTER OK', res);
+      this.isSubmitting = false;
+      this.router.navigate(['/login']);
+    },
+    error: (err) => {
+      console.error('SUBSCRIBE ERROR', err);
+    }
+  });
   }
 
   goToLogin(): void {
