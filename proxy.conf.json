@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://esame-trevisan-marco.somee.com",
+    "target": "http://esame-trevisan-marco.somee.com/api",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
