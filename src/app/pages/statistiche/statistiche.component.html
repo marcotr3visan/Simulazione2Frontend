@@ -5,11 +5,7 @@
         <div class="card-body p-4 p-lg-5">
           <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
             <div>
-              <span class="badge text-bg-primary mb-3">Report consegne</span>
               <h1 class="display-6 mb-2">Statistiche</h1>
-              <p class="text-muted mb-0">
-                Analizza numero consegne e tempo medio in base a periodo e stato.
-              </p>
             </div>
 
             <div>
@@ -108,9 +104,6 @@
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
             <div>
               <h2 class="h5 mb-1">Dettaglio statistiche</h2>
-              <p class="text-muted small mb-0">
-                Risultati aggregati restituiti dall’API backend.
-              </p>
             </div>
             <span class="badge rounded-pill text-bg-light border">
               Record: {{ statistiche.length }}
@@ -127,8 +120,7 @@
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light sticky-top">
                 <tr>
-                  <th class="ps-4">Dal</th>
-                  <th>Al</th>
+                  
                   <th>Stato</th>
                   <th>Numero consegne</th>
                   <th class="pe-4">Tempo medio (ore)</th>
@@ -136,12 +128,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of statistiche">
-                  <td class="ps-4">
-                    {{ item.dal ? (item.dal | date:'dd/MM/yyyy') : '-' }}
-                  </td>
-                  <td>
-                    {{ item.al ? (item.al | date:'dd/MM/yyyy') : '-' }}
-                  </td>
+                  
                   <td>
                     <span
                       class="badge"

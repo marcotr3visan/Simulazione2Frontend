@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://esame-trevisan-marco.somee.com/api",
+    "target": "https://localhost:7193",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",

@@ -35,7 +35,7 @@ export interface ModificaClienteRequest {
 
 @Injectable({ providedIn: 'root' })
 export class ClientiService {
-  private apiUrl = '/api/clienti';
+  private apiUrl = 'https://localhost:7193/api/clienti';
 
   constructor(private http: HttpClient) {}
 

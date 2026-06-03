@@ -15,7 +15,7 @@ export interface Consegna {
   providedIn: 'root'
 })
 export class ConsegneService {
-  private apiUrl = '/api/consegne';
+  private apiUrl = 'https://localhost:7193/api/consegne';
 
   constructor(private http: HttpClient) {}
 

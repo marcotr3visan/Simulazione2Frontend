@@ -14,7 +14,7 @@ export interface StatisticaConsegna {
   providedIn: 'root'
 })
 export class StatisticheService {
-  private apiUrl = '/api/statistiche/consegne';
+  private apiUrl = 'https://localhost:7193/api/statistiche/consegne';
 
   constructor(private http: HttpClient) {}
 

@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  ClientiService,
-  Cliente,
-  InserisciClienteRequest
-} from '../../services/clienti.service';
-import {
-  Consegna,
-  ConsegneService
-} from '../../services/consegne.service';
+import { ClientiService, Cliente, InserisciClienteRequest} from '../../services/clienti.service';
+import { Consegna, ConsegneService} from '../../services/consegne.service';
 
 type ClienteInModifica = InserisciClienteRequest & {
   clienteID: number;
@@ -155,7 +148,7 @@ export class AreaOperatoreComponent implements OnInit {
         this.caricaClienti();
       },
       error: (err) => {
-        this.erroreClienti = err?.error || 'Errore durante l’inserimento del cliente.';
+        this.erroreClienti = err?.error || 'Errore durante inserimento del cliente.';
       }
     });
   }
@@ -218,7 +211,7 @@ export class AreaOperatoreComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.erroreClienti = err?.error || 'Errore durante l’eliminazione del cliente.';
+        this.erroreClienti = err?.error || 'Errore durante eliminazione del cliente.';
       }
     });
   }
@@ -243,7 +236,7 @@ export class AreaOperatoreComponent implements OnInit {
         this.caricaConsegne();
       },
       error: (err) => {
-        this.erroreConsegne = err?.error || 'Errore durante l’inserimento della consegna.';
+        this.erroreConsegne = err?.error || 'Errore durante inserimento della consegna.';
       }
     });
   }
@@ -310,7 +303,7 @@ export class AreaOperatoreComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.erroreConsegne = err?.error || 'Errore durante l’eliminazione della consegna.';
+        this.erroreConsegne = err?.error || 'Errore durante eliminazione della consegna.';
       }
     });
   }
@@ -339,7 +332,7 @@ export class AreaOperatoreComponent implements OnInit {
         this.caricaConsegne();
       },
       error: (err) => {
-        this.erroreConsegne = err?.error || 'Errore durante l’aggiornamento dello stato.';
+        this.erroreConsegne = err?.error || 'Errore durante aggiornamento dello stato.';
         this.caricaConsegne();
       }
     });

@@ -1,16 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-interface TrackingRequest {
-  chiaveConsegna: string;
-  dataRitiro: string;
-}
-
-interface TrackingResponse {
-  stato: string;
-  dataRitiro: string;
-  dataConsegna: string | null;
-}
+import { TrackingService, TrackingRequest, TrackingResponse } from '../../services/tracking.service';
 
 @Component({
   selector: 'app-tracking',
@@ -28,9 +17,7 @@ export class TrackingComponent {
   errore = '';
   loading = false;
 
-  private apiUrl = 'https://localhost:7193/tracking'; 
-
-  constructor(private http: HttpClient) {}
+  constructor(private trackingService: TrackingService) {}
 
   onSubmit(): void {
     this.errore = '';
@@ -43,7 +30,7 @@ export class TrackingComponent {
 
     this.loading = true;
 
-    this.http.post<TrackingResponse>(this.apiUrl, this.formData).subscribe({
+    this.trackingService.cercaConsegna(this.formData).subscribe({
       next: (response) => {
         this.risultato = response;
         this.loading = false;

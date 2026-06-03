@@ -6,11 +6,7 @@
         <div class="card-body p-4 p-lg-5">
           <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
             <div>
-              <span class="badge text-bg-primary mb-3">Area riservata</span>
               <h1 class="display-6 mb-2">Area operatore</h1>
-              <p class="text-muted mb-0">
-                Gestisci clienti e consegne direttamente da questa area riservata.
-              </p>
             </div>
 
             <div class="d-flex flex-column flex-sm-row gap-2">
@@ -32,9 +28,6 @@
     <div class="col-12">
       <div class="section-header mb-1">
         <h2 class="h3 mb-1">Gestione clienti</h2>
-        <p class="text-muted mb-0">
-          Inserisci, modifica ed elimina i clienti registrati.
-        </p>
       </div>
     </div>
 
@@ -42,52 +35,66 @@
       <div class="card border-0 shadow-sm h-100">
         <div class="card-header bg-white border-0 pt-4 px-4">
           <h3 class="h5 mb-1">Nuovo cliente</h3>
-          <p class="text-muted small mb-0">
-            Compila i dati principali del cliente.
-          </p>
         </div>
 
         <div class="card-body px-4 pb-4">
-          <form (ngSubmit)="inserisciCliente()" class="row g-3">
+          <form (ngSubmit)="inserisciCliente()" #formCliente="ngForm" class="row g-3">
+
             <div class="col-12">
-              <label class="form-label">Nominativo</label>
+              <label class="form-label">Nominativo *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="nuovoCliente.nominativo"
                 name="nominativo"
+                #nominativo="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="nominativo.invalid && nominativo.touched">
+                Il nominativo è obbligatorio.
+              </div>
             </div>
 
             <div class="col-12">
-              <label class="form-label">Via</label>
+              <label class="form-label">Via *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="nuovoCliente.via"
                 name="via"
+                #via="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="via.invalid && via.touched">
+                La via è obbligatoria.
+              </div>
             </div>
 
             <div class="col-md-8">
-              <label class="form-label">Comune</label>
+              <label class="form-label">Comune *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="nuovoCliente.comune"
                 name="comune"
+                #comune="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="comune.invalid && comune.touched">
+                Il comune è obbligatorio.
+              </div>
             </div>
 
             <div class="col-md-4">
-              <label class="form-label">Provincia</label>
+              <label class="form-label">Provincia *</label>
               <input
                 type="text"
                 class="form-control text-uppercase"
                 maxlength="2"
                 [(ngModel)]="nuovoCliente.provincia"
                 name="provincia"
+                #provincia="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="provincia.invalid && provincia.touched">
+                La provincia è obbligatoria.
+              </div>
             </div>
 
             <div class="col-md-6">
@@ -105,7 +112,11 @@
                 type="email"
                 class="form-control"
                 [(ngModel)]="nuovoCliente.email"
-                name="email">
+                name="email"
+                #email="ngModel">
+              <div class="text-danger mt-1" *ngIf="email.invalid && email.touched">
+                Inserisci un'email valida.
+              </div>
             </div>
 
             <div class="col-12">
@@ -118,7 +129,7 @@
             </div>
 
             <div class="col-12 d-grid d-sm-flex">
-              <button type="submit" class="btn btn-primary px-4">
+              <button type="submit" class="btn btn-primary px-4" [disabled]="formCliente.invalid">
                 Inserisci cliente
               </button>
             </div>
@@ -135,13 +146,11 @@
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 pt-4 px-4">
           <h3 class="h5 mb-1">Modifica cliente</h3>
-          <p class="text-muted small mb-0">
-            Aggiorna i dati del cliente selezionato.
-          </p>
         </div>
 
         <div class="card-body px-4 pb-4">
-          <form (ngSubmit)="salvaModificaCliente()" class="row g-3">
+          <form (ngSubmit)="salvaModificaCliente()" #formModificaCliente="ngForm" class="row g-3">
+
             <div class="col-12 col-md-2">
               <label class="form-label">ID</label>
               <input
@@ -153,44 +162,60 @@
             </div>
 
             <div class="col-12 col-md-10">
-              <label class="form-label">Nominativo</label>
+              <label class="form-label">Nominativo *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="clienteInModifica.nominativo"
                 name="nominativoModifica"
+                #nominativoModifica="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="nominativoModifica.invalid && nominativoModifica.touched">
+                Il nominativo è obbligatorio.
+              </div>
             </div>
 
             <div class="col-12">
-              <label class="form-label">Via</label>
+              <label class="form-label">Via *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="clienteInModifica.via"
                 name="viaModifica"
+                #viaModifica="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="viaModifica.invalid && viaModifica.touched">
+                La via è obbligatoria.
+              </div>
             </div>
 
             <div class="col-12 col-md-8">
-              <label class="form-label">Comune</label>
+              <label class="form-label">Comune *</label>
               <input
                 type="text"
                 class="form-control"
                 [(ngModel)]="clienteInModifica.comune"
                 name="comuneModifica"
+                #comuneModifica="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="comuneModifica.invalid && comuneModifica.touched">
+                Il comune è obbligatorio.
+              </div>
             </div>
 
             <div class="col-12 col-md-4">
-              <label class="form-label">Provincia</label>
+              <label class="form-label">Provincia *</label>
               <input
                 type="text"
                 class="form-control text-uppercase"
                 maxlength="2"
                 [(ngModel)]="clienteInModifica.provincia"
                 name="provinciaModifica"
+                #provinciaModifica="ngModel"
                 required>
+              <div class="text-danger mt-1" *ngIf="provinciaModifica.invalid && provinciaModifica.touched">
+                La provincia è obbligatoria.
+              </div>
             </div>
 
             <div class="col-12 col-md-6">
@@ -208,7 +233,11 @@
                 type="email"
                 class="form-control"
                 [(ngModel)]="clienteInModifica.email"
-                name="emailModifica">
+                name="emailModifica"
+                #emailModifica="ngModel">
+              <div class="text-danger mt-1" *ngIf="emailModifica.invalid && emailModifica.touched">
+                Inserisci un'email valida.
+              </div>
             </div>
 
             <div class="col-12">
@@ -221,7 +250,7 @@
             </div>
 
             <div class="col-12 d-flex flex-column flex-sm-row gap-2">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" [disabled]="formModificaCliente.invalid">
                 Salva modifiche
               </button>
 
@@ -243,9 +272,6 @@
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
             <div>
               <h3 class="h5 mb-1">Elenco clienti</h3>
-              <p class="text-muted small mb-0">
-                Panoramica dei clienti registrati.
-              </p>
             </div>
 
             <span class="badge rounded-pill text-bg-light border">
@@ -312,9 +338,6 @@
     <div class="col-12 mt-2">
       <div class="section-header mb-1">
         <h2 class="h3 mb-1">Gestione consegne</h2>
-        <p class="text-muted mb-0">
-          Inserisci, aggiorna ed elimina le consegne registrate.
-        </p>
       </div>
     </div>
 
@@ -322,19 +345,18 @@
       <div class="card border-0 shadow-sm h-100">
         <div class="card-header bg-white border-0 pt-4 px-4">
           <h3 class="h5 mb-1">Nuova consegna</h3>
-          <p class="text-muted small mb-0">
-            Registra una nuova consegna associandola a un cliente.
-          </p>
         </div>
 
         <div class="card-body px-4 pb-4">
-          <form (ngSubmit)="inserisciConsegna()" class="row g-3">
+          <form (ngSubmit)="inserisciConsegna()" #formConsegna="ngForm" class="row g-3">
+
             <div class="col-12">
-              <label class="form-label">Cliente</label>
+              <label class="form-label">Cliente *</label>
               <select
                 class="form-select"
                 [(ngModel)]="nuovaConsegna.clienteID"
                 name="clienteID"
+                #clienteID="ngModel"
                 required>
                 <option [ngValue]="0">Seleziona cliente</option>
                 <option *ngFor="let cliente of clienti" [ngValue]="cliente.clienteID">
@@ -344,17 +366,18 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label">Data ritiro</label>
+              <label class="form-label">Data ritiro *</label>
               <input
                 type="date"
                 class="form-control"
                 [(ngModel)]="nuovaConsegna.dataRitiro"
                 name="dataRitiro"
+                #dataRitiro="ngModel"
                 required>
             </div>
 
             <div class="col-12 d-grid d-sm-flex">
-              <button type="submit" class="btn btn-success px-4">
+              <button type="submit" class="btn btn-success px-4" [disabled]="formConsegna.invalid">
                 Inserisci consegna
               </button>
             </div>
@@ -371,13 +394,11 @@
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white border-0 pt-4 px-4">
           <h3 class="h5 mb-1">Modifica consegna</h3>
-          <p class="text-muted small mb-0">
-            Aggiorna i dati della consegna selezionata.
-          </p>
         </div>
 
         <div class="card-body px-4 pb-4">
-          <form (ngSubmit)="salvaModificaConsegna()" class="row g-3">
+          <form (ngSubmit)="salvaModificaConsegna()" #formModificaConsegna="ngForm" class="row g-3">
+
             <div class="col-12 col-md-2">
               <label class="form-label">ID</label>
               <input
@@ -389,7 +410,7 @@
             </div>
 
             <div class="col-12 col-md-4">
-              <label class="form-label">Cliente</label>
+              <label class="form-label">Cliente *</label>
               <select
                 class="form-select"
                 [(ngModel)]="consegnaInModifica.clienteID"
@@ -402,7 +423,7 @@
             </div>
 
             <div class="col-12 col-md-3">
-              <label class="form-label">Data ritiro</label>
+              <label class="form-label">Data ritiro *</label>
               <input
                 type="date"
                 class="form-control"
@@ -412,7 +433,7 @@
             </div>
 
             <div class="col-12 col-md-3">
-              <label class="form-label">Stato</label>
+              <label class="form-label">Stato *</label>
               <select
                 class="form-select"
                 [(ngModel)]="consegnaInModifica.stato"
@@ -443,7 +464,7 @@
             </div>
 
             <div class="col-12 d-flex flex-column flex-sm-row gap-2">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary" [disabled]="formModificaConsegna.invalid">
                 Salva modifiche
               </button>
 
@@ -465,9 +486,6 @@
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
             <div>
               <h3 class="h5 mb-1">Elenco consegne</h3>
-              <p class="text-muted small mb-0">
-                Consulta le consegne e aggiorna rapidamente lo stato.
-              </p>
             </div>
 
             <span class="badge rounded-pill text-bg-light border">

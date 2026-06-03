@@ -17,7 +17,7 @@ export interface TrackingResponse {
   providedIn: 'root'
 })
 export class TrackingService {
-  private apiUrl = '/api/tracking';
+  private apiUrl = 'https://localhost:7193/api/tracking';
 
   constructor(private http: HttpClient) {}
 
