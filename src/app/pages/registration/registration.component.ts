@@ -60,11 +60,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   .pipe(
     takeUntil(this.destroyed$),
     catchError(err => {
-      console.error('REGISTER ERROR', err);
-      this.isSubmitting = false;
-      this.registrationError = err?.error?.message || 'Errore durante la registrazione.';
-      return throwError(() => err);
-    })
+  console.error('REGISTER ERROR COMPLETO', err);
+  this.isSubmitting = false;
+  this.registrationError =
+    err?.error?.message ||
+    err?.error ||
+    err?.message ||
+    'Errore durante la registrazione.';
+  return throwError(() => err);
+})
   )
   .subscribe({
     next: (res) => {
